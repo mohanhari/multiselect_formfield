@@ -19,44 +19,54 @@ class MultiSelectFormField extends FormField<dynamic> {
   final String okButtonLabel;
   final String cancelButtonLabel;
   final Color fillColor;
-  final InputBorder border;
+  final InputBorder focusBorder;
+  final InputBorder enableBorder;
   final TextStyle chipLabelStyle;
   final Color chipBackGroundColor;
   final TextStyle dialogTextStyle;
   final ShapeBorder dialogShapeBorder;
   final Color checkBoxCheckColor;
   final Color checkBoxActiveColor;
+  final Color filterLabelColor;
+  final InputBorder filterEnableBorder;
+  final InputBorder filterFocusBorder;
+  final String filterLabel;
 
-  MultiSelectFormField({
-    FormFieldSetter<dynamic> onSaved,
-    FormFieldValidator<dynamic> validator,
-    dynamic initialValue,
-    bool autovalidate = false,
-    this.title = const Text('Title'),
-    this.hintWidget = const Text('Tap to select one or more'),
-    this.required = false,
-    this.errorText = 'Please select one or more options',
-    this.leading,
-    this.dataSource,
-    this.textField,
-    this.valueField,
-    this.change,
-    this.open,
-    this.close,
-    this.okButtonLabel = 'OK',
-    this.cancelButtonLabel = 'CANCEL',
-    this.fillColor,
-    this.border,
-    this.trailing,
-    this.chipLabelStyle,
-    this.chipBackGroundColor,
-    this.dialogTextStyle = const TextStyle(),
-    this.dialogShapeBorder = const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(0.0)),
-    ),
-    this.checkBoxActiveColor,
-    this.checkBoxCheckColor,
-  }) : super(
+  MultiSelectFormField(
+      {FormFieldSetter<dynamic> onSaved,
+      FormFieldValidator<dynamic> validator,
+      dynamic initialValue,
+      bool autovalidate = false,
+      this.title = const Text('Title'),
+      this.hintWidget = const Text('Tap to select one or more'),
+      this.required = false,
+      this.errorText = 'Please select one or more options',
+      this.leading,
+      this.dataSource,
+      this.textField,
+      this.valueField,
+      this.change,
+      this.open,
+      this.close,
+      this.okButtonLabel = 'OK',
+      this.cancelButtonLabel = 'CANCEL',
+      this.fillColor,
+      this.focusBorder,
+      this.enableBorder,
+      this.trailing,
+      this.chipLabelStyle,
+      this.chipBackGroundColor,
+      this.dialogTextStyle = const TextStyle(),
+      this.dialogShapeBorder = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0.0)),
+      ),
+      this.checkBoxActiveColor,
+      this.checkBoxCheckColor,
+      this.filterLabelColor,
+      this.filterEnableBorder,
+      this.filterFocusBorder,
+      this.filterLabel = 'Search'})
+      : super(
           onSaved: onSaved,
           validator: validator,
           initialValue: initialValue,
@@ -103,9 +113,13 @@ class MultiSelectFormField extends FormField<dynamic> {
                   builder: (BuildContext context) {
                     return MultiSelectDialog(
                       title: title,
+                      filterLabel: filterLabel,
                       okButtonLabel: okButtonLabel,
                       cancelButtonLabel: cancelButtonLabel,
                       items: items,
+                      filterLabelColor: filterLabelColor,
+                      filterEnableBorder: filterEnableBorder,
+                      filterFocusBorder: filterFocusBorder,
                       initialSelectedValues: initialSelected,
                       labelStyle: dialogTextStyle,
                       dialogShapeBorder: dialogShapeBorder,
@@ -126,7 +140,8 @@ class MultiSelectFormField extends FormField<dynamic> {
                   errorText: state.hasError ? state.errorText : null,
                   errorMaxLines: 4,
                   fillColor: fillColor ?? Theme.of(state.context).canvasColor,
-                  border: border ?? UnderlineInputBorder(),
+                  enabledBorder: enableBorder ?? UnderlineInputBorder(),
+                  focusedBorder: focusBorder ?? UnderlineInputBorder(),
                 ),
                 isEmpty: state.value == null || state.value == '',
                 child: Column(
